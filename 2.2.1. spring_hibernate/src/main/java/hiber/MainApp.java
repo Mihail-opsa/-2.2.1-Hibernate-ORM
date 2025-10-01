@@ -43,7 +43,7 @@ public class MainApp {
        }
 
        for (User user : userFromDb) {
-           userService.add(user);
+           userService.add(user); // add косяк!!! понял принял  надо не добавлять а обновлять во избежания дуболикатов 
 
        }
 
