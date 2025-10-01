@@ -7,6 +7,7 @@ import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainApp {
@@ -16,18 +17,38 @@ public class MainApp {
 
         UserService userService = context.getBean(UserService.class);
 
-        User user1 = new User("User1", "LastName1", "user1@email.ru");
-        user1.setCar(new Car("BMW", 450));
+        // создаем и сохраняем юзеров
 
+        List<User> users = new ArrayList<>();
+        users.add(new User("User1", "LastName1", "users1@mail.com"));
+        users.add(new User("User2", "LastName2", "users2@mail.com"));
 
-        User user2 = new User("User2", "LastName2", "user2@email.ru");
-        user2.setCar(new Car("lada", 2192));
-        userService.add(user1);
-        userService.add(user2);
+        for (User user : users) {// сохраняем по отдельности
+            userService.add(user);
+        }
 
+        List<Car> cars = new ArrayList<>();
+        cars.add(new Car("bmw",520));
+        cars.add(new Car("Mercedes",1200));
 
-        System.out.println("Машина User1: " + userService.getUserById(user1.getId()).getCar().getModel());
-        System.out.println("Владелец lada: " + userService.getUserByCar("lada", 2192).getFirstName());
+        for (Car car : cars) {
+            userService.addCar(car);
+        }
+
+        List<User> userFromDb = userService.listUsers();
+        List<Car> carFromBd = userService.listCars();
+
+       for (int i = 0; i < userFromDb.size(); i++) {
+           userFromDb.get(i).setCar(carFromBd.get(i));
+       }
+
+       for (User user : userFromDb) {
+           userService.add(user);
+
+       }
+
         context.close();
+
+
     }
 }
