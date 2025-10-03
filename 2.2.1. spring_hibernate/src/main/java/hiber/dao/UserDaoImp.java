@@ -21,11 +21,6 @@ public class UserDaoImp implements UserDao {
     }
 
     @Override
-    public void addCar(Car car) { // сохранение машин
-        sessionFactory.getCurrentSession().save(car);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
         TypedQuery<User> query = sessionFactory.getCurrentSession().createQuery("from User");
@@ -33,12 +28,7 @@ public class UserDaoImp implements UserDao {
 
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public List<Car> listCars() {
-        TypedQuery<Car> query = sessionFactory.getCurrentSession().createQuery("from Car");
-        return query.getResultList();
-    }
+
 
     @Override
     public User getUserById(long id) {
@@ -58,4 +48,10 @@ public class UserDaoImp implements UserDao {
 
 
     }
+
+    @Override
+    public void update(User user) {
+        sessionFactory.getCurrentSession().merge(user);
+    }
 }
+

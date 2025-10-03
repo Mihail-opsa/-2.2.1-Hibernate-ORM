@@ -1,5 +1,6 @@
 package hiber.service;
 
+import hiber.dao.CarDao;
 import hiber.dao.UserDao;
 import hiber.dao.UserDaoImp;
 import hiber.model.Car;
@@ -15,30 +16,19 @@ public class UserServiceImp implements UserService {
 
    @Autowired // автоматическое связывание -ищет бин !
    private UserDao userDao; //Dependency Inversion (DIP). предпочтительнее что бы не трогать код в UserDaoImp
-                            // private UserDaoImp userDaoImp;
 
 
 
 
-   @Transactional  // только чтение данных
+   @Transactional// только чтение данных
    @Override
    public void add(User user) {
        userDao.add(user);
    }
 
-   @Transactional      // сохранения машины
-   @Override
-   public void addCar(Car car) {
-       userDao.addCar(car);
-   }
 
-   @Transactional
-   @Override
-   public List<Car> listCars() {
-       return userDao.listCars();
-   }
 
-   @Transactional(readOnly = true) // только чтение данных
+    @Transactional(readOnly = true) // только чтение данных
    @Override
    public List<User> listUsers() {
        return userDao.listUsers();
@@ -55,6 +45,11 @@ public class UserServiceImp implements UserService {
 @Override
     public User getUserByCar(String model, int series){
        return userDao.getUserByCar(model, series);
+    }
+@Transactional
+    @Override
+    public void update(User user) {
+        userDao.update(user); ;
     }
 
 }
